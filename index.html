@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <title>Locate & Go</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      background-color: rgba(128, 128, 128, 0.3);
+      color: #333;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #640c0c;
+      color: white;
+      padding: 1rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      font-size: 30px;
+      position: fixed;
+      width: 100%;
+      transition: top 0.3s ease;
+      z-index: 999;
+    }
+
+    header img {
+      width: 70px;
+      height: 70px;
+      border-radius: 10px;
+    }
+
+    header nav a {
+      color: white;
+      margin-left: 3rem;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    header nav a:hover {
+      color: black;
+      border-bottom: 2px solid rgb(0, 0, 0);
+      font-size: 1.2rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 2em;
+      cursor: pointer;
+    }
+
+    .bloco {
+      display: flex;
+    }
+
+    .pesquisa {
+      gap: 1rem;
+    }
+
+    .tt1 {
+      border-radius: 10px 10px 0 0;
+      display: inline-block;
+      padding: 0 1rem;
+      
+      margin-top: 19%;
+    }
+
+    .tt2 {
+      display: inline-block;
+      margin-top: 2%;
+      max-width: 700px;
+      padding: 0 1rem;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .txt {
+      padding: 0 1rem;
+      max-width: 700px;
+      text-align: justify;
+    }
+
+    .topicos {
+      display: flex;
+      gap: 2rem;
+      padding: 0 1rem;
+      margin: 5% 0;
+      font-weight: bold;
+      max-width: 700px;
+    }
+    
+    .badge {
+      background: rgba(128, 128, 128, 0.3);
+      padding: 0rem 2rem;
+      border-radius: 999px;
+      
+    }
+
+    .sub1 {
+      display: flex;
+      gap: 30px;
+    }
+
+    .badge:hover {
+      background: white;
+    }
+
+    .container {
+      display: flex;
+      gap: 1rem;
+      padding: 0 1rem;
+      text-align: center;
+      color: rgb(255, 255, 255);
+      font-weight: bold;
+      max-width: 700px;
+    }
+
+    .counter {
+      background: rgb(151, 3, 3);
+      padding: 1.5rem 1rem;
+      margin-top: 5%;
+      border-radius: 6px;
+      width: 100%;
+      border: 1px solid black;
+    }
+
+    .counter:hover {
+      background: white;
+      color: black;
+    }
+
+    main {
+      max-width: 1400px;
+      margin: 2rem 3rem;
+      padding: 0 1rem;
+      width: 100%;
+    }
+
+    #img2 {
+      width: 50%;
+      height: 500px;
+      margin: 2%;
+      margin-left: 5%;
+      margin-bottom: 2%;
+      margin-top: 10%;
+      text-align: center;
+      border-radius: 30px;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      gap: 1rem;
+    }
+
+    #img3 {
+      width: 25%;
+      height: auto;
+      margin-left: 35%;
+    }
+
+    #img4 {
+      width: 25%;
+      height: auto;
+      margin-left: 35%;
+    }
+
+    .section {
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .section h2 {
+      margin-bottom: 1rem;
+      color: #640c0c;
+    }
+
+    .section img {
+      width: 100%;
+      border-radius: 15px;
+      margin-top: 1rem;
+    }
+
+    button {
+      background-color: #640c0c;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 30px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background-color: #d91a1a;
+    }
+
+    #botao2 {
+      width: 50%;
+      background-color: #640c0c;
+      color: white;
+      padding: 2%;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Times New Roman', Times, serif;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 25%;
+      margin-bottom: 10%;
+      margin-top: 8%;
+      box-shadow: 20px 20px 15px rgba(0,0,0,0.3);
+    }
+
+    #botao2:hover {
+      background-color: #d91a1a;
+    }
+
+    #prototipo {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: 50px; 
+      margin: 5%;
+    }
+
+    .conteiner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr); 
+      grid-template-rows: 250px 250px;        
+      gap: 100px;                           
+      justify-items: center;
+    }
+
+    .f1, .f2, .f3, .f4, .f5, .f6 {
+      max-width: 300px;
+      height: 250px;
+      padding: 20px;
+      text-align: center;
+      background-color: rgb(255, 255, 255);
+      color: black;
+      font-family: Arial, Helvetica, sans-serif;
+      border: 2px solid #333;
+      box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .f1:hover, .f2:hover, .f3:hover, .f4:hover, .f5:hover, .f6:hover{
+      background-color: #640c0c;
+      color: white;
+      border: 2px solid white;
+    }
+
+    .f1 p, .f2 p, .f3 p, .f4 p, .f5 p, .f6 p {
+      text-align: justify;
+    }
+    
+    .carrossel {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 1rem 0;
+      scroll-behavior: smooth;
+      margin-top: 6%;
+      margin-left: 3%;
+      margin-right: 4%;
+    }
+
+    .carrossel::-webkit-scrollbar {
+      display: none; 
+    }
+
+    .item {
+      flex: 0 0 auto;
+      width: 250px;
+      scroll-snap-align: start;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: white;
+    }
+
+    .item img {
+      width: 100%;
+      display: block;
+    }
+
+    .item p {
+      text-align: center;
+      padding: 0.5rem;
+      font-weight: bold;
+    }
+
+    #item1 {
+      height: 100%;
+    }
+
+    hr {
+      border: none;
+      height: 3px;
+      background-color: #1a1a1a; 
+      margin: 5rem 2rem;          
+    }
+
+    footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 2rem 0rem;
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: #aaa;
+      text-decoration: none;
+    }
+
+    #WhatsApp {
+      margin-left: 0.5%;
+      width: 30%;
+      padding: 1%;
+    }
+
+    @media (max-width: 768px) {
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+
+  body {
+    overflow-x: hidden; /* impede scroll horizontal */
+  }
+
+
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 16px;
+    position: fixed;
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 2em;
+    z-index: 1001;
+  }
+
+  header nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 80px; 
+    right: 5px;
+    background-color: #640c0c;
+    padding: 1rem;
+    border-radius: 15px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
+    z-index: 1000;
+  }
+
+  header nav.active {
+    display: flex;
+  }
+
+  header nav a {
+    color: white;
+    text-align: right;
+    padding: 0.6rem 0;
+    text-decoration: none;
+    font-size: 1rem;
+  }
+
+  header nav a:hover {
+    color: black;
+    font-size: 1.1rem;
+  }
+
+  .bloco {
+    flex-wrap: wrap;
+  }
+
+  button { 
+    padding: 5%;
+    margin: 5% auto;
+    width: 100%; 
+  }
+  
+  #botao2 { 
+    padding: 5%;  
+    margin: 20% 5%;
+    width: 90%; 
+  } 
+  
+  #img1 { 
+    width: 50px; 
+    height: 50px; 
+  } 
+  
+  #img2 { 
+    margin-top: 30%;
+    margin-bottom: 1%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%; 
+    height: auto; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
+  } 
+  
+  #img3, #img4 { 
+    width: 50%; 
+    height: auto; 
+    margin: 5% 25%; 
+  } 
+  
+  #prototipo { 
+    font-size: 30px; 
+  } 
+  
+  #WhatsApp { 
+    margin-left: 0.5%; 
+    width: 40%; 
+    padding: 4%; } 
+
+  .topicos, .container {
+    flex-wrap: wrap;
+  }
+  
+  .conteiner {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  main {
+    margin: 0;
+    left: 0;
+  
+  }
+
+  .pesquisa {
+    text-align: center;
+  }
+
+  .tt2 {
+    margin-top: 5%;
+    text-align: left;
+    width: 90%;
+    font-size: 22px;
+  }
+
+  .txt {
+    padding: 1rem 2rem;
+  }
+
+  .badge {
+    width: 100%;
+    padding: 0rem 1rem;
+  }
+
+  .sub1 {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+  }
+
+  .container {
+    display: flex;
+    gap: 5px;
+  }
+
+  .counter {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10%;
+    padding: 2rem 0;
+  }
+  
+  
+  
+  }
+
+
+  </style>
+</head>
+<body>
+  <header id="header">
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <img src="locate.png" alt="Logo Locate" id="img1">
+      <strong>LOCATE & GO</strong>
+    </div>
+
+    <nav id="menu">
+      <a href="#img2">Início</a>
+      <a href="#objetivo">Objetivo</a>
+      <a href="#proposito">Propósito</a>
+      <a href="#metas">Metas</a>
+      <a href="#funcoes">Funcionalidades</a>
+      <a href="#prototipo">Protótipo</a>
+    </nav>
+
+    <div class="menu-toggle" id="toggle">&#9776;</div> 
+
+  </header>
+  
+  <div class="bloco">
+  <img src="locatego.jpg" alt="Banner Locate Go" id="img2">
+
+  <div class="pesquisa">
+          <div class="tt1">Sobre Nós • Missão & Valores</div>
+          <h1 class="tt2" id="title">Construímos experiências <span class="type" style="color: rgb(161, 3, 3);">sem espera</span> para empresas e clientes</h1>
+          <p class="txt">O Locate & Go é uma plataforma pensada para reduzir perda de tempo, aumentar a facilidade e transformar a jornada de atendimento exaustiva em algo fácil, rápido e acessível.</p>
+
+          <div class="topicos">
+            <div class="sub1">
+            <div class="badge" id="badge1">+70% de insatisfações</div>
+            <div class="badge" id="badge2">2 anos  de vida gastas</div>
+            </div>
+            <div class="badge" id="badge3">67.9% CNPJ's sem estrutura</div>
+          </div>
+
+          <div class="container" style="margin-top:18px">
+            <div class="counter"><div class="num" data-target="12000">214M</div><div class="muted">Usuários de filas</div></div>
+            <div class="counter"><div class="num" data-target="2500">23M</div><div class="muted">Empresas</div></div>
+            <div class="counter"><div class="num" data-target="98">43</div><div class="muted">Satisfação %</div></div>
+          </div>
+  </div>
+</div>
+  <main>
+
+    <div class="section">
+      <p>
+        O Locate Go é um aplicativo de gerenciamento inteligente de filas, desenvolvido em 2024 por estudantes e pesquisadores do Instituto Federal do Piauí – Campus Picos. A ideia nasceu da observação de um problema comum: o tempo excessivo de espera em filas. Nosso propósito é melhorar a experiência de usuários, permitindo controle e monitoramento em tempo real.
+      </p>
+      <p>
+        Acreditamos que tecnologia e inovação podem transformar rotinas. O Locate Go é mais que um app — é um passo rumo a um futuro mais organizado e conectado.
+      </p>
+    </div>
+
+    <div class="section" id="objetivo">
+      <h2>Nosso Objetivo</h2>
+      <p>
+        Organizar o tempo das pessoas e facilitar o acesso aos serviços. Queremos transformar a experiência de espera, oferecendo gestão inteligente de filas em diferentes contextos.
+      </p><br>
+      <p>
+        Como um projeto movido por propósito, o Locate Go trabalha para criar um futuro melhor para todas as pessoas que utilizam nossa plataforma. Estamos comprometidos em promover acesso igualitário, inclusão e eficiência, facilitando o dia a dia de quem atende e de quem espera. Valorizamos o senso de pertencimento e a colaboração, tanto dentro da nossa equipe quanto nas comunidades onde atuamos. Acreditamos que, por meio da tecnologia e do trabalho conjunto, podemos gerar impactos positivos reais, transformando filas em oportunidades e conectando pessoas a serviços de forma justa e acessível.
+      </p><br>
+      <a href="https://docs.google.com/document/d/1FsZdOGQpSg5Oerc-XRFG64Kyh-l7R3Yym7P8_B5FRbk/edit?usp=drivesdk"><button>Conheça nosso aplicativo</button></a>
+    </div>
+
+    <div class="section" id="proposito">
+      <h2>Nosso Propósito</h2>
+      <p>
+        Criar um futuro melhor com acesso igualitário e eficiência. Valorizamos inclusão, pertencimento e impacto social através da tecnologia. Nosso propósito é Organizar o tempo das pessoas e facilitar o acesso Vivemos em um mundo onde o tempo é cada vez mais valioso e ninguém quer desperdiçá-lo em filas desorganizadas.
+      </p><br>
+      <p>
+        O Locate Go nasceu com a missão de transformar essa realidade, oferecendo uma plataforma inteligente e acessível para o gerenciamento eficiente de filas em diferentes contextos: de serviços públicos a comércios locais! proporcionando uma gestão mais eficiente, reduzindo custos operacionais e evitando aglomerações desnecessárias.
+      </p>
+      <img src="img.proposito3.jpg" alt="Nosso Propósito" id="img3">
+    </div>
+
+    <div class="section" id="metas" style="margin-bottom: 20%;">
+      <h2>O Futuro das Filas</h2>
+      <p>
+        Desenvolvemos soluções adaptáveis: controle de senhas, agendamentos online e análises em tempo real. Cada usuário merece uma experiência mais rápida, humana e organizada.
+      </p><br>
+      <p>
+        O Locate Go começou com uma missão simples:
+Facilitar o gerenciamento de filas. Mas nosso propósito nos levou além. Estamos desenvolvendo ferramentas inteligentes e adaptáveis que atendem às mais diversas realidades — desde pequenas empresas e consultórios até instituições públicas e grandes eventos. Nosso portfólio está em expansão, com soluções que vão desde o controle de senhas e agendamentos online até o monitoramento em tempo real e análise de dados para uma gestão mais eficiente do fluxo de pessoas. Queremos que cada usuário — seja quem atende ou quem está esperando — tenha uma experiência mais organizada, rápida e humana.
+      </p>
+      <img src="img.fila.jpg" alt="Futuro das Filas" id="img4">
+    </div>
+  </main>
+
+<div class="funcoes" id="funcoes">
+
+  <div class="conteiner">
+    <div class="f1"><b>Filtro de serviços</b><br><br><p>Permite buscar por tipo de serviço (ex: barbearia, clínica, oficina) e aplicar filtros como distância, preço, avaliação, etc.</p></div>
+
+    <div class="f2"><b>Perfil interativo</b><br><br><p>Exibe os serviços disponíveis em um mapa com informações básicas (nome, distância, tempo de espera).</p></div>
+
+    <div class="f3"><b>Agendamento antecipado</b><br><br><p>Possibilidade de marcar horários futuros fora do sistema de fila instantâneo.</p></div>
+
+    <div class="f4"><b>Geolocalização</b><br><br><p>Permite a busca de estabelecimentos mais próximos reduzindo o tempo de procura e facilitando o acesso às empresas.</p></div>
+
+    <div class="f5"><b>Cancelamendo e Reagendamento em filas</b><br><br><p>Opção de alterar a entrada de usuários ou cancelar a entrada na fila com poucos toques.</p></div>
+
+    <div class="f6"><b>Notificações automáticas e inclusivas</b><br><br><p>Alerta o usuário quando o horário de atendimento está próximo. Essa função tamém permite a inclusão de pessoas com deficiência.</p>
+
+  </div><br><br>
+</div>
+
+  <b id="prototipo">PROTÓTIPO</b><br>
+<hr>
+  <div class="carrossel">
+
+    <div class="item" id="item1">
+      <img src="inicio.print.prototipo.png" alt="" id="item1">
+      <p>Figura 1</p>
+    </div>
+
+    <div class="item">
+      <img src="dadosEmpresário.print.prototipo.png" alt="">
+      <p>Figura 2</p>
+    </div>
+
+    <div class="item">
+      <img src="dadosEmpresa.print.prototipo.png" alt="">
+      <p>Figura 3</p>
+    </div>
+
+    <div class="item">
+      <img src="registro.print.prototipo.png" alt="">
+      <p>Figura 4</p>
+    </div>
+
+    <div class="item">
+      <img src="perfilEmpresário.print.prototipo.png" alt="">
+      <p>Figura 5</p>
+    </div>
+
+    <div class="item">
+      <img src="gerencia.print.prototipo.png" alt="">
+      <p>Figura 6</p>
+    </div>
+
+    <div class="item">
+      <img src="filaEmpresário.print.prototipo.png" alt="">
+      <p>Figura 7</p>
+    </div>
+
+    <div class="item">
+      <img src="pedidoEmpresário.print.prototipo.png" alt="">
+      <p>Figura 8</p>
+    </div>
+
+    <div class="item">
+      <img src="catalogoEmpresário.print.prototipo.png" alt="">
+      <p>Figura 9</p>
+    </div>
+
+    <div class="item">
+      <img src="inicialCliente.print.prototipo.png" alt="">
+      <p>Figura 10</p>
+    </div>
+
+    <div class="item">
+      <img src="dadosCliente.print.prototipo.png" alt="">
+      <p>Figura 11</p>
+    </div>
+
+    <div class="item">
+      <img src="registro.print.prototipo.png" alt="">
+      <p>Figura 12</p>
+    </div>
+
+    <div class="item">
+      <img src="inicioPerfilCliente.print.prototipo.png" alt="">
+      <p>Figura 13</p>
+    </div>
+
+    <div class="item">
+      <img src="perfilCliente.print.prototipo.png" alt="">
+      <p>Figura 14</p>
+    </div>
+
+    <div class="item">
+      <img src="inicio.print.prototipo.png" alt="">
+      <p>Figura 15</p>
+    </div>
+
+    <div class="item">
+      <img src="dadosEntrar.print.prototipo.png" alt="">
+      <p>Figura 16</p>
+    </div>
+
+    <div class="item">
+      <img src="esqueciSenha.print.prototipo.png" alt="">
+      <p>Figura 17</p>
+    </div>
+
+  </div>
+
+  <a href="https://kasantosml.github.io/Prototipo-Locate-Go/"><button id="botao2">Teste nosso aplicativo</button></a>
+
+  <footer>
+    <p>&copy; 2025 empresa HGK — <a href="https://www.instagram.com/locate_go/" target="_blank" style="color: #aa1616;">@locate_go</a></p><br>
+    <p>Equipe: Hellen Cristina, Kawan dos Santos, Maria Germina.</p>
+      <div id="contato">
+        <a href="tel:+5589981380746"><button id="WhatsApp"><img src=""><i class="fab fa-whatsapp"></i>WhatsApp</button></a>
+      </div><br>
+  </footer>
+
+
+  <script>
+    const toggle = document.getElementById('toggle');
+    const menu = document.getElementById('menu');
+
+    toggle.addEventListener('click', () => {
+    menu.classList.toggle('active');
+});
+
+    let ultimoScroll = window.scrollY;
+    const header = document.getElementById('header');
+
+  window.addEventListener('scroll', () => {
+    const atualScroll = window.scrollY;
+
+    if (atualScroll > ultimoScroll) {
+      header.style.top = "-100px"; 
+    } else {
+
+      header.style.top = "0";
+    }
+
+    ultimoScroll = atualScroll;
+});
+
+  </script>
+</body>
+</html>
